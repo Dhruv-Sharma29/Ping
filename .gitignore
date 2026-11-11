@@ -1,0 +1,7 @@
+# Build output (~170 MB) and generated project: regenerate with `xcodegen`
+build/
+Ping.xcodeproj/
+DerivedData/
+.DS_Store
+*.xcuserstate
+xcuserdata/

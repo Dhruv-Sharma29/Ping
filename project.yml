@@ -1,0 +1,44 @@
+# Source of truth for the Xcode project. Regenerate with: xcodegen
+name: Ping
+options:
+  deploymentTarget:
+    iOS: "18.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+    SWIFT_APPROACHABLE_CONCURRENCY: YES
+targets:
+  Ping:
+    type: application
+    platform: iOS
+    sources: [Ping]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.dhruvsharma.Ping
+        DEVELOPMENT_TEAM: 6N4NH3RW4K # Personal Team (free); apps expire after 7 days
+        INFOPLIST_KEY_CFBundleDisplayName: Ping
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+    info:
+      path: Ping/Info.plist
+      properties:
+        UILaunchScreen: {}
+        UIBackgroundModes: [fetch, processing]
+        BGTaskSchedulerPermittedIdentifiers: [com.dhruvsharma.Ping.refresh, com.dhruvsharma.Ping.process]
+  PingTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [PingTests]
+    dependencies:
+      - target: Ping
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  Ping:
+    build:
+      targets:
+        Ping: all
+    test:
+      targets: [PingTests]
