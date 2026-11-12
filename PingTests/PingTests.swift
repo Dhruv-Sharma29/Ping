@@ -325,3 +325,12 @@ func handleRejects(input: String) {
     #expect(GitHub.cleanToken("has a space in it but is long enough") == nil)
     #expect(GitHub.cleanToken("") == nil)
 }
+
+// MARK: - Tapping a notification
+
+@Test func notificationRepoFromKeyOrLink() {
+    #expect(NotificationRouter.repo(from: ["repo": "o/r", "url": "https://github.com/x/y/issues/1"]) == "o/r")
+    #expect(NotificationRouter.repo(from: ["url": "https://github.com/huggingface/transformers/issues/50472"]) == "huggingface/transformers")
+    #expect(NotificationRouter.repo(from: ["url": "https://example.com/o/r/issues/1"]) == nil)
+    #expect(NotificationRouter.repo(from: [:]) == nil)
+}

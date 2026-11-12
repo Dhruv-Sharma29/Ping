@@ -7,10 +7,12 @@ struct RepoListView: View {
     @Environment(\.scenePhase) private var phase
     @Query(sort: \Repo.name) private var repos: [Repo]
     @State private var notificationsOff = false
+    @State private var path: [String] = []
+    private var router = NotificationRouter.shared
     @State private var backgroundOff = false
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             List {
                 if notificationsOff {
                     NotificationsOffSection()
@@ -46,6 +48,7 @@ struct RepoListView: View {
                 }
             }
             .navigationDestination(for: String.self) { IssueListView(repo: $0) }
+            .onChange(of: router.pendingRepo, initial: true) { openPendingRepo() } // initial: tapped while Ping was closed
             .refreshable { await Checker.run(force: true) }
             .task { await start() }
             .onChange(of: phase) {
@@ -65,6 +68,13 @@ struct RepoListView: View {
         notificationsOff = settings.authorizationStatus == .denied
         backgroundOff = UIApplication.shared.backgroundRefreshStatus == .denied
         await Checker.run()
+    }
+
+    /// Opens the repo from a tapped notification, replacing whatever was open.
+    private func openPendingRepo() {
+        guard let repo = router.pendingRepo else { return }
+        router.pendingRepo = nil
+        path = [repo]
     }
 
     private func add(_ name: String) {

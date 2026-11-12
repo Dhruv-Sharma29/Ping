@@ -2,6 +2,7 @@ import SwiftUI
 
 struct RootView: View {
     @State private var tab = RootTab.repos
+    private var router = NotificationRouter.shared
 
     var body: some View {
         TabView(selection: $tab) {
@@ -17,6 +18,9 @@ struct RootView: View {
             Tab("For You", systemImage: "sparkles", value: .forYou) {
                 ForYouView()
             }
+        }
+        .onChange(of: router.pendingRepo) { // a tapped notification opens the Repos tab
+            if router.pendingRepo != nil { tab = .repos }
         }
     }
 }

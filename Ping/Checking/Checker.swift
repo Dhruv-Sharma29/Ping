@@ -116,7 +116,7 @@ enum Checker {
         content.subtitle = "by \(issue.author?.login ?? "unknown") · \(issue.role.label)"
         content.body = "#\(issue.number) \(issue.title)"
         content.sound = .default
-        content.userInfo = ["url": issue.htmlURL.absoluteString]
+        content.userInfo = ["url": issue.htmlURL.absoluteString, "repo": repo] // repo: where a tap opens Ping
         let request = UNNotificationRequest(identifier: "\(repo)#\(issue.number)", content: content, trigger: nil)
         try? await UNUserNotificationCenter.current().add(request)
     }
